@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use("ggplot")
+from json import load,dumps
 from warnings import simplefilter
 simplefilter("ignore")
 
@@ -16,7 +17,8 @@ class SNN: # Simple Neural Network :)
         random_state : int = None,
         verbose : bool = False,
         error_type : str = None,
-        verbose_stepsize : int = None):
+        verbose_stepsize : int = None,
+        pretrained : bool = False):
 
         self.inodes = input_layer
         self.onodes = output_layer
@@ -32,8 +34,14 @@ class SNN: # Simple Neural Network :)
 
         np.random.seed(self.random_state)
 
-        self.__iweights = np.random.rand(self.inodes,self.hnodes)
-        self.__oweights = np.random.rand(self.hnodes,self.onodes)
+        if not pretrained:
+            self.__iweights = np.random.rand(self.inodes,self.hnodes)
+            self.__oweights = np.random.rand(self.hnodes,self.onodes)
+        else:
+            try:
+                self.__iweights,self.__oweights = self.__load_model()
+            except:
+                raise FileNotFoundError("Model file was not found.")
 
         self.__flag = False
         self.total_error = None
@@ -179,6 +187,15 @@ class SNN: # Simple Neural Network :)
 
         return self.alpha
 
-    def _get_layers_input(self):
+    def save_model(self):
 
-        return {"I":self.inodes,"H":self.hnodes,"O":self.onodes}
+        weights = {"input_weights":self.__iweights.tolist(),"output_weights":self.__oweights.tolist()}
+        with open('snn.json', 'w') as file:
+            file.write(dumps(weights))
+
+    def __load_model(self):
+
+        with open('snn.json') as file:
+            vars = load(file)
+
+        return (np.array(vars["input_weights"]),np.array(vars["output_weights"]))
