@@ -171,21 +171,17 @@ class SNN: # Simple Neural Network :)
 
         print("-"*40)
 
-    def _get_input_weights(self):
+    def _get_weights(self):
 
-        return self.__iweights
+        return (self.__iweights,self.__oweights)
 
-    def _get_output_weights(self):
-
-        return self.__oweights
-
-    def _get_loss(self):
+    def get_loss(self):
 
         return self.total_error
 
-    def _get_learning_rate(self):
+    def get_parameters(self):
 
-        return self.alpha
+        return {"hidden_nodes":self.hnodes,"learning_rate":self.alpha,"activation":"sigmoid"}
 
     def save_model(self):
 
