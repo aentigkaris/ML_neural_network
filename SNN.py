@@ -171,15 +171,15 @@ class SNN: # Simple Neural Network :)
 
         print("-"*40)
 
-    def _get_weights(self):
+    def _get_weights(self) -> tuple:
 
         return (self.__iweights,self.__oweights)
 
-    def get_loss(self):
+    def get_loss(self) -> float:
 
         return self.total_error
 
-    def get_parameters(self):
+    def get_parameters(self) -> dict:
 
         return {"hidden_nodes":self.hnodes,"learning_rate":self.alpha,"activation":"sigmoid"}
 
@@ -189,7 +189,7 @@ class SNN: # Simple Neural Network :)
         with open('snn.json', 'w') as file:
             file.write(dumps(weights))
 
-    def __load_model(self):
+    def __load_model(self) -> tuple:
 
         with open('snn.json') as file:
             vars = load(file)
