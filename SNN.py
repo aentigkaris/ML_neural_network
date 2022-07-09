@@ -24,7 +24,7 @@ class SNN: # Simple Neural Network :)
         self.onodes = output_layer
         self.hnodes = hidden_layer if hidden_layer else 10
         self.alpha = learning_rate if learning_rate else 1.0
-        self.n_epochs = epochs if epochs else 1.0
+        self.n_epochs = epochs if epochs else 1
         self.random_state = random_state if random_state else 0
         self.verbose_mode = verbose
         self.error_type = error_type if error_type else "MSE"
