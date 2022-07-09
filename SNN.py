@@ -2,8 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use("ggplot")
 from json import load,dumps
-from warnings import simplefilter
-simplefilter("ignore")
 
 class SNN: # Simple Neural Network :)
 
@@ -93,7 +91,8 @@ class SNN: # Simple Neural Network :)
             for i,x_i in enumerate(X_train):
                 x_i = x_i.reshape((np.shape(x_i)[0],1))
                 y_i = np.zeros((self.onodes,1))
-                y_i[y_train[i]] = 1.0
+                if self.onodes == 1: y_i = 1.0
+                else: y_i[y_train[i]] = 1.0
                 error = self.__fit_aux(x_i,y_i)
                 aggregate_error[i,:,:] = error
 
