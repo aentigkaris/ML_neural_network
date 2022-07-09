@@ -16,7 +16,7 @@ class SNN: # Simple Neural Network :)
         verbose : bool = False,
         error_type : str = None,
         verbose_stepsize : int = None,
-        pretrained : bool = False):
+        pretrained : bool = False) -> None:
 
         self.inodes = input_layer
         self.onodes = output_layer
@@ -44,7 +44,7 @@ class SNN: # Simple Neural Network :)
         self.__flag = False
         self.total_error = None
 
-    def __check_arguments(self,x,y):
+    def __check_arguments(self,x,y) -> None:
 
         try:
             if np.shape(x) == (np.shape(x)[0],self.inodes): pass
@@ -74,7 +74,7 @@ class SNN: # Simple Neural Network :)
 
         return error_o
 
-    def fit(self,X_train : np.array,y_train : np.array):
+    def fit(self,X_train : np.array,y_train : np.array) -> None:
 
         self.__flag = True
 
@@ -146,7 +146,7 @@ class SNN: # Simple Neural Network :)
 
         return np.sum(s)/len(s)
 
-    def _diagnostics(self):
+    def _diagnostics(self) -> None:
 
         if self.__flag == True: pass
         else: raise SyntaxError("Model has not yet been fitted!")
@@ -182,7 +182,7 @@ class SNN: # Simple Neural Network :)
 
         return {"hidden_nodes":self.hnodes,"learning_rate":self.alpha,"activation":"sigmoid"}
 
-    def save_model(self):
+    def save_model(self) -> None:
 
         weights = {"input_weights":self.__iweights.tolist(),"output_weights":self.__oweights.tolist()}
         with open('snn.json', 'w') as file:
