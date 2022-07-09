@@ -42,7 +42,7 @@ class SNN: # Simple Neural Network :)
                 raise FileNotFoundError("Model file was not found.")
 
         self.__flag = False
-        self.total_error = None
+        self.loss = None
 
     def __check_arguments(self,x,y) -> None:
 
@@ -97,14 +97,14 @@ class SNN: # Simple Neural Network :)
                 aggregate_error[i,:,:] = error
 
             if self.error_type == "MSE":
-                self.total_error = 1.0/np.shape(X_train)[0] * np.sum(aggregate_error **2)
+                self.loss = 1.0/np.shape(X_train)[0] * np.sum(aggregate_error **2)
             elif self.error_type == "ESS":
-                self.total_error = 1.0/2.0 * np.sum(aggregate_error **2)
+                self.loss = 1.0/2.0 * np.sum(aggregate_error **2)
             elif self.error_type == "RMS":
-                self.total_error = np.sqrt(1.0/np.shape(X_train)[0] * np.sum(aggregate_error **2))
+                self.loss = np.sqrt(1.0/np.shape(X_train)[0] * np.sum(aggregate_error **2))
 
             if self.verbose_mode and (np.mod(progress,self.verbose_stepsize)==0):
-                print(f"Epoch {progress}/{self.n_epochs}:\tCalculating...\tError: {self.total_error}")
+                print(f"Epoch {progress}/{self.n_epochs}:\tCalculating...\tError: {self.loss}")
 
     def __predict_aux(self,X : np.array) -> np.array:
 
@@ -161,7 +161,7 @@ class SNN: # Simple Neural Network :)
         print("-"*40)
 
         print(f"Epochs performed: {self.n_epochs}")
-        print(f"Final error ('{self.error_type}'): {self.total_error}")
+        print(f"Final error ('{self.error_type}'): {self.loss}")
         print(f"Input nodes used: {self.inodes}")
         print(f"Hidden nodes used: {self.hnodes}")
         print(f"Output nodes used: {self.onodes}")
@@ -176,7 +176,7 @@ class SNN: # Simple Neural Network :)
 
     def get_loss(self) -> float:
 
-        return self.total_error
+        return self.loss
 
     def get_parameters(self) -> dict:
 
